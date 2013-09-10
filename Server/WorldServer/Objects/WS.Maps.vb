@@ -754,15 +754,15 @@ Public Module WS_Maps
         End If
 
         Dim MysqlQuery As New DataTable
-        ''Database.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        'WorldDatabase.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        'For Each InfoRow As DataRow In MysqlQuery.Rows
-        '    If Not WORLD_CREATUREs.ContainsKey(CType(InfoRow.Item("spawn_id"), Long) + GUID_UNIT) Then
-        '        Dim tmpCr As CreatureObject = New CreatureObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
-        '        tmpCr.instance = TileInstance
-        '        tmpCr.AddToWorld()
-        '    End If
-        'Next
+        'Database.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+        WorldDatabase.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+        For Each InfoRow As DataRow In MysqlQuery.Rows
+            If Not WORLD_CREATUREs.ContainsKey(CType(InfoRow.Item("spawn_id"), Long) + GUID_UNIT) Then
+                Dim tmpCr As CreatureObject = New CreatureObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
+                tmpCr.instance = TileInstance
+                tmpCr.AddToWorld()
+            End If
+        Next
 
         MysqlQuery.Clear()
         'Database.Query(String.Format("SELECT * FROM spawns_gameobjects WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)

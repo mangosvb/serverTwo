@@ -42,7 +42,7 @@ Public Module WS_Creatures
             'DONE: Load Item Data from MySQL
             Dim MySQLQuery As New DataTable
             'Database.Query(String.Format("SELECT * FROM creatures WHERE creature_id = {0};", CreatureID), MySQLQuery)
-            WorldDatabase.Query(String.Format("SELECT * FROM creatures WHERE entry_id = {0};", CreatureID), MySQLQuery)
+            WorldDatabase.Query(String.Format("SELECT * FROM creatures WHERE creature_id = {0};", CreatureID), MySQLQuery)
 
             If MySQLQuery.Rows.Count = 0 Then
                 Log.WriteLine(LogType.FAILED, "CreatureID {0} not found in SQL database.", CreatureID)
@@ -438,83 +438,86 @@ Public Module WS_Creatures
         End Sub
         Public Sub FillAllUpdateFlags(ByRef Update As UpdateClass)
             Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_GUID, GUID)
-            Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_TYPE, CType(ObjectType.TYPE_OBJECT + ObjectType.TYPE_UNIT, Integer))
-            Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_ENTRY, ID)
             Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_SCALE_X, Size)
-            'Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_ENTRY, CType(GUID, Integer)) ' Possible wrong ID for this field trying ID.
+            Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_TYPE, ObjectType.TYPE_OBJECT + ObjectType.TYPE_UNIT)
+            Update.SetUpdateFlag(EObjectFields.OBJECT_FIELD_ENTRY, ID)
 
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_HEALTH, Life.Current)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXHEALTH, Life.Maximum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASE_HEALTH, Life.Maximum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXPOWER1 + CREATURESDatabase(ID).ManaType, Mana.Maximum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASE_MANA, Mana.Maximum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_POWER1 + CREATURESDatabase(ID).ManaType, Mana.Current)
+            'TODO: May need to add these back, just trying to get creature spawns working.
+            If (Not aiScript Is Nothing) AndAlso (Not aiScript.aiTarget Is Nothing) Then
+                Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_TARGET, aiScript.aiTarget.GUID)
+            End If
+
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_SUMMONEDBY, SummonedBy)
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_CREATEDBY, CreatedBy)
+            Update.SetUpdateFlag(EUnitFields.UNIT_CREATED_BY_SPELL, CreatedBySpell)
+
             Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_DISPLAYID, Me.Model)
             'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_NATIVEDISPLAYID, CREATURESDatabase(ID).Model)
             Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_NATIVEDISPLAYID, Me.Model)
             'If Mount > 0 Then Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MOUNTDISPLAYID, Mount)
             Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MOUNTDISPLAYID, Mount)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_LEVEL, Level)
-
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_PHYSICAL, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_PHYSICAL))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_HOLY, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_HOLY))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_FIRE, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_FIRE))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_NATURE, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_NATURE))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_FROST, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_FROST))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_SHADOW, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_SHADOW))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_ARCANE, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_ARCANE))
-
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASEATTACKTIME, CREATURESDatabase(ID).BaseAttackTime)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MINDAMAGE, CREATURESDatabase(ID).Damage.Minimum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXDAMAGE, CREATURESDatabase(ID).Damage.Maximum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASEATTACKTIME + 2, CREATURESDatabase(ID).BaseRangedAttackTime)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MINRANGEDDAMAGE, CREATURESDatabase(ID).RangedDamage.Minimum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXRANGEDDAMAGE, CREATURESDatabase(ID).RangedDamage.Maximum)
-            Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_SLOT_ID, EquipedItems(0))
-            Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_SLOT_ID + 1, EquipedItems(1))
-            Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_SLOT_ID + 2, EquipedItems(2))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_FACTIONTEMPLATE, CType(Faction, Integer))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_FLAGS, cUnitFlags)
-            Update.SetUpdateFlag(EUnitFields.UNIT_NPC_EMOTESTATE, cEmoteState)
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BOUNDINGRADIUS, CType(CREATURESDatabase(ID).BoundingRadius, Single))
-            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_COMBATREACH, CType(CREATURESDatabase(ID).CombatReach, Single))
-
-            Update.SetUpdateFlag(EUnitFields.UNIT_NPC_FLAGS, CREATURESDatabase(ID).cNpcFlags)
-
-            Update.SetUpdateFlag(EUnitFields.UNIT_MOD_CAST_SPEED, 1.0F) ' Better set this one???
 
             'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BYTES_0, CType(CType(CREATURESDatabase(ID).ManaType, Integer) << 24, Integer)) ' Seeing if info in spawn table works better here.
             Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BYTES_0, cBytes0)
             Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BYTES_1, cBytes1)
             Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BYTES_2, cBytes2)
 
-            Update.SetUpdateFlag(EUnitFields.UNIT_DYNAMIC_FLAGS, cDynamicFlags)
+            Update.SetUpdateFlag(EUnitFields.UNIT_NPC_EMOTESTATE, cEmoteState)
 
-            'TODO: May need to add these back, just trying to get creature spawns working.
-            'If (Not aiScript Is Nothing) AndAlso (Not aiScript.aiTarget Is Nothing) Then
-            '    Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_TARGET, aiScript.aiTarget.GUID)
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_HEALTH, Life.Current)
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_POWER1 + CREATURESDatabase(ID).ManaType, Mana.Current)
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXHEALTH, Life.Maximum)
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXPOWER1 + CREATURESDatabase(ID).ManaType, Mana.Maximum)
+
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_LEVEL, Level)
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_FACTIONTEMPLATE, CType(Faction, Integer))
+            Update.SetUpdateFlag(EUnitFields.UNIT_NPC_FLAGS, CREATURESDatabase(ID).cNpcFlags)
+
+            Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_FLAGS, cUnitFlags)
+            'If Character.Access > AccessLevel.Player Then
+            '   Update.SetUpdateFlag(EUnitFields.UNIT_DYNAMIC_FLAGS, cDynamicFlags Or DynamicFlags.UNIT_DYNFLAG_SPECIALINFO)
+            '   Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MINDAMAGE, CreatureInfo.Damage.Minimum)
+            '   Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXDAMAGE, CreatureInfo.Damage.Maximum)
+            'Else
+            Update.SetUpdateFlag(EUnitFields.UNIT_DYNAMIC_FLAGS, cDynamicFlags)
             'End If
 
-            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_SUMMONEDBY, SummonedBy)
-            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_CREATEDBY, CreatedBy)
-            'Update.SetUpdateFlag(EUnitFields.UNIT_CREATED_BY_SPELL, CreatedBySpell)
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_PHYSICAL, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_PHYSICAL))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_HOLY, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_HOLY))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_FIRE, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_FIRE))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_NATURE, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_NATURE))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_FROST, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_FROST))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_SHADOW, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_SHADOW))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RESISTANCES + DamageTypes.DMG_ARCANE, CREATURESDatabase(ID).Resistances(DamageTypes.DMG_ARCANE))
 
-
-
-
+            Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_SLOT_ID, EquipedItems(0))
             'Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_INFO, 0)
             'Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_INFO + 1, 0)
-
+            Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_SLOT_ID + 1, EquipedItems(1))
             'Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_INFO + 2, 0)
             'Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_INFO + 2 + 1, 0)
-
+            Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_SLOT_ID + 2, EquipedItems(2))
             'Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_INFO + 4, 0)
             'Update.SetUpdateFlag(EUnitFields.UNIT_VIRTUAL_ITEM_INFO + 4 + 1, 0)
 
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASE_HEALTH, Life.Maximum)
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASE_MANA, Mana.Maximum)
+
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASEATTACKTIME, CREATURESDatabase(ID).BaseAttackTime)
             'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_OFFHANDATTACKTIME, CREATURESDatabase(ID).BaseAttackTime)
             'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RANGEDATTACKTIME, CREATURESDatabase(ID).BaseRangedAttackTime)
             'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_ATTACK_POWER, CREATURESDatabase(ID).AtackPower)
             'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_RANGED_ATTACK_POWER, CREATURESDatabase(ID).RangedAtackPower)
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BOUNDINGRADIUS, CType(CREATURESDatabase(ID).BoundingRadius, Single))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_COMBATREACH, CType(CREATURESDatabase(ID).CombatReach, Single))
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MINRANGEDDAMAGE, CREATURESDatabase(ID).RangedDamage.Minimum)
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXRANGEDDAMAGE, CREATURESDatabase(ID).RangedDamage.Maximum)
+
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MINDAMAGE, CREATURESDatabase(ID).Damage.Minimum)
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_MAXDAMAGE, CREATURESDatabase(ID).Damage.Maximum)
+            'Update.SetUpdateFlag(EUnitFields.UNIT_FIELD_BASEATTACKTIME + 2, CREATURESDatabase(ID).BaseRangedAttackTime)
+
+            Update.SetUpdateFlag(EUnitFields.UNIT_MOD_CAST_SPEED, 1.0F) ' Better set this one???
 
         End Sub
 
