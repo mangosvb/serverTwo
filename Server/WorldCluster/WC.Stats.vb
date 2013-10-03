@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,12 +15,11 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Xml
 Imports System.Reflection
 Imports System.Threading
 Imports System.Diagnostics.PerformanceCounter
-Imports Spurious.Common
+Imports mangosVB.Common
 
 Public Module WC_Stats
 
@@ -132,7 +131,7 @@ Public Module WC_Stats
         f.WriteStartElement("cluster")
 
         f.WriteStartElement("platform")
-        f.WriteValue(String.Format("Spurious rev{0} v{1}", 0, [Assembly].GetExecutingAssembly().GetName().Version))
+        f.WriteValue(String.Format("MaNGOSvb rev{0} v{1}", 0, [Assembly].GetExecutingAssembly().GetName().Version))
         f.WriteEndElement()
 
         f.WriteStartElement("uptime")

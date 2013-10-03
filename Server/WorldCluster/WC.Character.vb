@@ -1,5 +1,5 @@
 ﻿'
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,11 +15,10 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.Reflection
-Imports Spurious.Common
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common
+Imports mangosVB.Common.BaseWriter
 
 Public Module WC_Character
 
@@ -55,17 +54,20 @@ Public Module WC_Character
         Public Group As Group = Nothing
         Public GroupFlags As Byte = 0
         Public GroupInvitedFlag As Boolean = False
+
         Public ReadOnly Property IsInGroup() As Boolean
             Get
                 Return (Group IsNot Nothing) AndAlso (GroupInvitedFlag = False)
             End Get
         End Property
+
         Public ReadOnly Property IsGroupLeader() As Boolean
             Get
                 If Group Is Nothing Then Return False
                 Return (Group.Members(Group.Leader) Is Me)
             End Get
         End Property
+
         Public ReadOnly Property IsInRaid() As Boolean
             Get
                 Return ((Not (Group Is Nothing)) AndAlso (Group.Type = GroupType.RAID))
@@ -82,21 +84,26 @@ Public Module WC_Character
             'DONE: Get character info from DB
             Dim MySQLQuery As New DataTable
             Database.Query(String.Format("SELECT * FROM characters WHERE char_guid = {0};", GUID), MySQLQuery)
+            If MySQLQuery.Rows.Count > 0 Then
+                Race = CType(MySQLQuery.Rows(0).Item("char_race"), Byte)
+                Classe = CType(MySQLQuery.Rows(0).Item("char_class"), Byte)
+                Gender = CType(MySQLQuery.Rows(0).Item("char_gender"), Byte)
 
-            Race = CType(MySQLQuery.Rows(0).Item("char_race"), Byte)
-            Classe = CType(MySQLQuery.Rows(0).Item("char_class"), Byte)
-            Gender = CType(MySQLQuery.Rows(0).Item("char_gender"), Byte)
+                Name = CType(MySQLQuery.Rows(0).Item("char_name"), String)
+                Level = CType(MySQLQuery.Rows(0).Item("char_level"), Byte)
+                Access = CType(MySQLQuery.Rows(0).Item("char_access"), Byte)
 
-            Name = CType(MySQLQuery.Rows(0).Item("char_name"), String)
-            Level = CType(MySQLQuery.Rows(0).Item("char_level"), Byte)
-            Access = CType(MySQLQuery.Rows(0).Item("char_access"), Byte)
+                Zone = CType(MySQLQuery.Rows(0).Item("char_zone_id"), UInteger)
+                Map = CType(MySQLQuery.Rows(0).Item("char_map_id"), UInteger)
 
-            Zone = CType(MySQLQuery.Rows(0).Item("char_zone_id"), UInteger)
-            Map = CType(MySQLQuery.Rows(0).Item("char_map_id"), UInteger)
-
-            PositionX = CType(MySQLQuery.Rows(0).Item("char_positionX"), Single)
-            PositionY = CType(MySQLQuery.Rows(0).Item("char_positionY"), Single)
+                PositionX = CType(MySQLQuery.Rows(0).Item("char_positionX"), Single)
+                PositionY = CType(MySQLQuery.Rows(0).Item("char_positionY"), Single)
+                'Else
+                '    Log.WriteLine(LogType.DATABASE, "Failed to load expected results from:")
+                '    Log.WriteLine(LogType.DATABASE, String.Format("SELECT * FROM characters WHERE char_guid = {0};", GUID))
+            End If
         End Sub
+
         Public Sub New(ByVal g As ULong, ByRef c As ClientClass)
             GUID = g
             Client = c
@@ -109,6 +116,7 @@ Public Module WC_Character
             CHARACTERs.Add(GUID, Me)
             CHARACTERs_Lock.ReleaseWriterLock()
         End Sub
+
         Public Sub Dispose() Implements IDisposable.Dispose
             Client = Nothing
 
@@ -182,7 +190,7 @@ Public Module WC_Character
 
             'DONE: Server Message Of The Day
             SendMessageMOTD(Client, "Welcome to World of Warcraft.")
-            SendMessageMOTD(Client, String.Format("This server is using {0} v.{1}", SetColor("[SpuriousEmu]", 255, 0, 0), [Assembly].GetExecutingAssembly().GetName().Version))
+            SendMessageMOTD(Client, String.Format("This server is using {0} v.{1}", SetColor("[MaNGOSvb]", 200, 255, 200), [Assembly].GetExecutingAssembly().GetName().Version))
 
             'DONE: SMSG_CONTACT_LIST
             SendContactList(Client, Me)
@@ -206,6 +214,7 @@ Public Module WC_Character
                 Next
             Next
         End Sub
+
         Public Sub OnLogout()
             'DONE: Update character status in database
             Database.Update("UPDATE characters SET char_online = 0 WHERE char_guid = " & GUID & ";")
@@ -261,6 +270,7 @@ Public Module WC_Character
             Return GUID
         End If
     End Function
+
     Public Function GetCharacterNameByGUID(ByVal GUID As String) As String
         If CHARACTERs.ContainsKey(GUID) Then
             Return CHARACTERs(GUID).Name

@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common.BaseWriter
 
 Public Module WS_Quests
 #Region "WS.Quests.Enums"
@@ -41,7 +40,7 @@ Public Module WS_Quests
         DIALOG_STATUS_REWARD2 = 7                ' Quest has been finished. - Yellow Question ? Mark (No yellow dot on the minimap?)
         DIALOG_STATUS_REWARD = 8                ' Quest has been finished. - Yellow Question ? Mark
     End Enum
-    Public Enum QuestObjectiveFlag 'These flags are custom and are only used for Spurious
+    Public Enum QuestObjectiveFlag 'These flags are custom and are only used for MangosVB
         QUEST_OBJECTIVE_KILL = 1 'You have to kill creatures
         QUEST_OBJECTIVE_EXPLORE = 2 'You have to explore an area
         QUEST_OBJECTIVE_ESCORT = 4 'You have to escort someone
@@ -441,10 +440,12 @@ Public Module WS_Quests
 
             IsCompleted()
         End Sub
+
         Public Overridable Function IsCompleted() As Boolean
             Complete = (ObjectivesCount(0) <= Progress(0) AndAlso ObjectivesCount(1) <= Progress(1) AndAlso ObjectivesCount(2) <= Progress(2) AndAlso ObjectivesCount(3) <= Progress(3) AndAlso ObjectivesItemCount(0) <= ProgressItem(0) AndAlso ObjectivesItemCount(1) <= ProgressItem(1) AndAlso ObjectivesItemCount(2) <= ProgressItem(2) AndAlso ObjectivesItemCount(3) <= ProgressItem(3) AndAlso Explored AndAlso Failed = False)
             Return Complete
         End Function
+
         Public Overridable Function GetState(Optional ByVal ForSave As Boolean = False) As Integer
             Dim tmpProgress As Integer = 0
             If ForSave Then

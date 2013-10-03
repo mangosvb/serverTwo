@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.Reflection
 Imports System.Text.RegularExpressions
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common.BaseWriter
+Imports mangosVB.Common
 
 Public Module WS_CharManagment
 
@@ -4994,19 +4994,23 @@ CheckXPAgain:
 
             'TODO: Check requirements for reputation
             'TODO: Check requirements for honor?
+
             Return True
         End Function
+
+        'This needs some work to fully complete quests
         Public Function IsQuestCompleted(ByVal QuestID As Integer) As Boolean
             Dim q As New DataTable
             Database.Query(String.Format("SELECT quest_id FROM characters_quests WHERE char_guid = {0} AND quest_status = -1 AND quest_id = {1};", GUID, QuestID), q)
 
             Return q.Rows.Count <> 0
         End Function
+
         Public Function IsQuestInProgress(ByVal QuestID As Integer) As Boolean
-            Dim i As Integer
-            For i = 0 To QUEST_SLOTS
-                If Not TalkQuests(i) Is Nothing Then
-                    If TalkQuests(i).ID = QuestID Then Return True
+            Dim Quest As Integer
+            For Quest = 0 To QUEST_SLOTS
+                If Not TalkQuests(Quest) Is Nothing Then
+                    If TalkQuests(Quest).ID = QuestID Then Return True
                 End If
             Next
 
@@ -5037,6 +5041,7 @@ CheckXPAgain:
             Client.Send(SMSG_LOG_XPGAIN)
             SMSG_LOG_XPGAIN.Dispose()
         End Sub
+
         Public Sub LogHonorGain(ByVal Ammount As Integer, Optional ByVal VictimGUID As ULong = 0, Optional ByVal VictimRANK As Byte = 0)
             Dim SMSG_PVP_CREDIT As New PacketClass(OPCODES.SMSG_PVP_CREDIT)
             SMSG_PVP_CREDIT.AddInt32(Ammount)
@@ -5045,6 +5050,7 @@ CheckXPAgain:
             Client.Send(SMSG_PVP_CREDIT)
             SMSG_PVP_CREDIT.Dispose()
         End Sub
+
         Public Sub LogLootItem(ByVal Item As ItemObject, ByVal ItemCount As Byte, ByVal Recieved As Boolean, ByVal Created As Boolean)
             Dim response As New PacketClass(OPCODES.SMSG_ITEM_PUSH_RESULT)
             response.AddUInt64(GUID)

@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,13 +15,12 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Runtime.InteropServices
 Imports System.IO
 Imports System.Reflection
 Imports System.CodeDom
 Imports System.CodeDom.Compiler
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common.BaseWriter
 
 'NOTE: How to use ScriptedObject as Function
 '   Dim test As New ScriptedObject("scripts\test.vb", "test.dll")
@@ -38,7 +37,7 @@ Public Class ScriptedObject
 
     Public Sub New()
         Dim LastDate As Date
-        Dim AssemblyFile As String = "Spurious.Scripts.dll"
+        Dim AssemblyFile As String = "mangosVB.Scripts.dll"
 
         Dim AssemblySources As String() = System.IO.Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory() & "\Scripts\", "*.vb", SearchOption.AllDirectories)
         For Each Source As String In AssemblySources

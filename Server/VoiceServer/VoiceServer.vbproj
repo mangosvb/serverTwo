@@ -7,11 +7,10 @@
     <ProjectGuid>{230261BC-44F0-4614-BA0F-3AC62497B63B}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>mangostools_Icon_64x64.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>Spurious.VoiceServer</AssemblyName>
+    <AssemblyName>VoiceServer</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
@@ -23,7 +22,7 @@
     <OptionCompare>Binary</OptionCompare>
     <OptionExplicit>On</OptionExplicit>
     <OptionStrict>Off</OptionStrict>
-    <RootNamespace>Spurious.VoiceServer</RootNamespace>
+    <RootNamespace>mangosVB.VoiceServer</RootNamespace>
     <StartupObject>Sub Main</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -69,7 +68,6 @@
     <DebugType>full</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <WarningsAsErrors>42020,42021,42022,42105,42106,42107</WarningsAsErrors>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\ServerFiles\</OutputPath>
@@ -97,7 +95,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>..\..\ServerFiles\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <Optimize>true</Optimize>
     <WarningLevel>1</WarningLevel>
@@ -119,15 +117,12 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Spurious.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ServerFiles\Spurious.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.Data" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
@@ -138,6 +133,7 @@
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +173,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vbproj">
+      <Project>{0697622c-938d-4486-a3a4-d438d0b7503f}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

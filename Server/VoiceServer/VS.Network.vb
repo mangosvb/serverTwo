@@ -1,5 +1,5 @@
 ﻿'
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System
 Imports System.IO
 Imports System.Threading
@@ -24,8 +23,8 @@ Imports System.Net.Sockets
 Imports System.Runtime.Remoting
 Imports System.Runtime.CompilerServices
 Imports System.Security.Permissions
-Imports Spurious.Common.BaseWriter
-Imports Spurious.Common
+Imports mangosVB.Common.BaseWriter
+Imports mangosVB.Common
 
 Public Module WC_Network
 
@@ -165,10 +164,12 @@ Public Module WC_Network
         End Sub
 
         Public Function ChannelCreate(ByVal Type As Byte, ByVal Name As String) As UShort Implements Common.IVoice.ChannelCreate
+            Return 0
         End Function
         Public Sub ChannelDestroy(ByVal ChannelID As UShort) Implements Common.IVoice.ChannelDestroy
         End Sub
         Public Function ClientConnect(ByVal ChannelID As UShort) As Byte Implements Common.IVoice.ClientConnect
+            Return 0
         End Function
         Public Sub ClientDisconnect(ByVal ChannelID As UShort, ByVal Slot As Byte) Implements Common.IVoice.ClientDisconnect
         End Sub

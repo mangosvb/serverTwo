@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,10 +15,9 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.Runtime.CompilerServices
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common.BaseWriter
 
 Public Module WS_Items
 
@@ -597,6 +596,7 @@ Public Module WS_Items
             Name2 = MySQLQuery.Rows(0).Item("name2")
             Name3 = MySQLQuery.Rows(0).Item("name3")
             Name4 = MySQLQuery.Rows(0).Item("name4")
+
             RandomProp = MySQLQuery.Rows(0).Item("randomprop")
             RandomSuffix = MySQLQuery.Rows(0).Item("randomsuffix") ' Not sure about this one
             ZoneNameID = MySQLQuery.Rows(0).Item("ZoneNameID")

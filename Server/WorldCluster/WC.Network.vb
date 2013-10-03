@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System
 Imports System.IO
 Imports System.Threading
@@ -24,8 +23,8 @@ Imports System.Net.Sockets
 Imports System.Runtime.Remoting
 Imports System.Runtime.CompilerServices
 Imports System.Security.Permissions
-Imports Spurious.Common.BaseWriter
-Imports Spurious.Common
+Imports mangosVB.Common.BaseWriter
+Imports mangosVB.Common
 
 Public Module WC_Network
 
@@ -166,7 +165,7 @@ Public Module WC_Network
                         SyncLock CType(Worlds, ICollection).SyncRoot
                             Worlds.Remove(Map)
                             WorldsInfo.Remove(Map)
-                            Log.WriteLine(LogType.INFORMATION, "Disconnected World Server: {0:000}", Map)
+                            Log.WriteLine(LogType.INFORMATION, "Disconnected World Map: {0:000}", Map)
                         End SyncLock
                     End Try
                 End If
@@ -186,7 +185,7 @@ Public Module WC_Network
                 For Each w As KeyValuePair(Of UInteger, IWorld) In Worlds
                     Try
                         If SentPingTo.ContainsKey(WorldsInfo(w.Key)) Then
-                            Log.WriteLine(LogType.NETWORK, "World [M{0:0000}] ping: {1}ms", w.Key, SentPingTo(WorldsInfo(w.Key)))
+                            Log.WriteLine(LogType.NETWORK, "World Map {0:000} ping: {1}ms", w.Key, SentPingTo(WorldsInfo(w.Key)))
                         Else
                             MyTime = timeGetTime
                             ServerTime = w.Value.Ping(MyTime)
@@ -195,14 +194,14 @@ Public Module WC_Network
                             WorldsInfo(w.Key).Latency = Latency
                             SentPingTo(WorldsInfo(w.Key)) = Latency
 
-                            Log.WriteLine(LogType.NETWORK, "World [M{0:0000}] ping: {1}ms", w.Key, Latency)
+                            Log.WriteLine(LogType.NETWORK, "World Map {0:000} ping: {1}ms", w.Key, Latency)
 
                             'Query CPU and Memory usage
                             w.Value.ServerInfo(WorldsInfo(w.Key).CPUUsage, WorldsInfo(w.Key).MemoryUsage)
                         End If
 
                     Catch ex As Exception
-                        Log.WriteLine(LogType.WARNING, "World [M{0:0000}] down.", w.Key)
+                        Log.WriteLine(LogType.WARNING, "World Map {0:000} Unavailable!", w.Key)
 
                         DeadServers.Add(w.Key)
                     End Try
@@ -210,7 +209,7 @@ Public Module WC_Network
             End SyncLock
 
             'Notification message
-            If Worlds.Count = 0 Then Log.WriteLine(LogType.WARNING, "No world servers available!")
+            If Worlds.Count = 0 Then Log.WriteLine(LogType.WARNING, "All world servers are offline!")
 
             'Drop WorldServers
             Disconnect("NULL", DeadServers)
@@ -223,7 +222,7 @@ Public Module WC_Network
                     Latency = Math.Abs(MyTime - ServerTime)
                     Log.WriteLine(LogType.NETWORK, "Voice Server ping: {0}ms", Latency)
                 Catch ex As Exception
-                    Log.WriteLine(LogType.WARNING, "Voice Server down.")
+                    Log.WriteLine(LogType.WARNING, "Voice Server Offline.")
                     VoiceDisconnect()
                 End Try
             End If
@@ -706,9 +705,11 @@ Public Module WC_Network
 
         Public Sub OnSendComplete(ByVal ar As IAsyncResult)
             If Not Socket Is Nothing Then
-                Dim bytesSent As Integer = Socket.EndSend(ar)
+                If Socket.Blocking Then
+                    Dim bytesSent As Integer = Socket.EndSend(ar)
 
-                Interlocked.Add(DataTransferOut, bytesSent)
+                    Interlocked.Add(DataTransferOut, bytesSent)
+                End If
             End If
         End Sub
 

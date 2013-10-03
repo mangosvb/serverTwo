@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Spurious.Common")> 
+<Assembly: AssemblyTitle("mangosVB.Common")> 
 <Assembly: AssemblyDescription("Common Library part of MaNGOSvb Server Emulator")> 
 <Assembly: AssemblyCompany("getMaNGOS")> 
 <Assembly: AssemblyProduct("MaNGOSvb Server Pack")> 
@@ -29,5 +29,6 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("2013.7.4.2")> 
+
+<Assembly: AssemblyFileVersion("2013.7.4.2")> 

@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.IO
 Imports System.Runtime.InteropServices
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common.BaseWriter
+Imports mangosVB.Common
 
 Public Module WS_DBCDatabase
 
@@ -474,7 +474,7 @@ Public Module WS_DBCDatabase
     End Class
 
     Public Function GetNearestTaxi(ByVal x As Single, ByVal y As Single, ByVal map As Integer) As Integer
-        Dim minDistance As Single = 99999999.0F
+        Dim minDistance As Single = 1.0E+8F
         Dim selectedTaxiNode As Integer = 0
         Dim tmp As Single
 
@@ -1972,11 +1972,11 @@ Public Module WS_DBCDatabase
     End Sub
 
     Public Sub InitializeAreaTriggers()
-        AreaTriggers = New ScriptedObject("scripts\AreaTriggers.vb", "Spurious.AreaTriggers.dll", False)
+        AreaTriggers = New ScriptedObject("scripts\AreaTriggers.vb", "mangosVB.AreaTriggers.dll", False)
         Log.WriteLine(LogType.INFORMATION, "Scripting: AreaTriggers initialized.")
     End Sub
     Public Sub InitializeAI()
-        AI = New ScriptedObject("scripts\AI.vb", "Spurious.AI.dll", False)
+        AI = New ScriptedObject("scripts\AI.vb", "mangosVB.AI.dll", False)
         Log.WriteLine(LogType.INFORMATION, "Scripting: AI initialized.")
     End Sub
 

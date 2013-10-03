@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@ Public Class IrcWriter
         AddHandler conn.OnRawMessage, AddressOf OnRawMessage
 #End If
 
-        conn.CtcpVersion = "Spurious Log Bot"
+        conn.CtcpVersion = "MaNGOSvb Log Bot"
         conn.Connect(server, port)
-        conn.Login(nick, "Spurious Log Bot")
+        conn.Login(nick, "MaNGOSvb Log Bot")
         conn.RfcJoin(channel)
         conn.SendMessage(SendType.Action, channel, " starts logging")
 

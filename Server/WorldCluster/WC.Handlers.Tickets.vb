@@ -1,5 +1,5 @@
 ﻿'
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.Net.Sockets
 Imports System.Xml.Serialization
@@ -23,8 +22,8 @@ Imports System.IO
 Imports System.Net
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Spurious.Common.BaseWriter
-Imports Spurious.Common
+Imports mangosVB.Common.BaseWriter
+Imports mangosVB.Common
 
 Public Module WC_Handlers_Tickets
 
@@ -144,9 +143,9 @@ Public Module WC_Handlers_Tickets
 
         Dim Questions As UInteger = packet.GetUInt32
         'Data from GMSurveyQuestions.dbc
-        '   Dim Question As UInteger = packet.GetUInt32
-        '   Dim Value As Byte = packet.GetUInt32
-        '   Dim Unknown As String = packet.GetString
+        'Dim Question As UInteger = packet.GetUInt32
+        'Dim Value As Byte = packet.GetUInt32
+        'Dim Unknown As String = packet.GetString
         'Dim Comment As String = packet.GetString
 
         Log.WriteLine(LogType.DEBUG, "[{0}:{1}] CMSG_GMSURVEY_SUBMIT [{2}]", Client.IP, Client.Port, Questions)

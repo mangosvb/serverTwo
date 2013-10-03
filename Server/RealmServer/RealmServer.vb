@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.Net.Sockets
 Imports System.Xml.Serialization
@@ -23,7 +22,8 @@ Imports System.IO
 Imports System.Net
 Imports System.Security.Cryptography
 Imports System.Reflection
-Imports Spurious.Common
+Imports mangosVB.Common.SQL
+Imports mangosVB.Common
 
 Public Module RS_Main
 #Region "Global.Constants"
@@ -110,7 +110,7 @@ Public Module RS_Main
             If System.IO.File.Exists("RealmServer.ini") = False Then
                 Console.ForegroundColor = ConsoleColor.Red
                 Console.WriteLine("[{0}] Cannot Continue. {1} does not exist.", Format(TimeOfDay, "hh:mm:ss"), "RealmServer.ini")
-                Console.WriteLine("Please copy the ini files into the same directory as the Spurious exe files.")
+                Console.WriteLine("Please copy the ini files into the same directory as the MangosVB exe files.")
                 Console.WriteLine("Press any key to exit server: ")
                 Console.ReadKey()
                 End
@@ -373,7 +373,6 @@ Public Module RS_Main
             'DONE: Send results to client
             Select Case acc_state
                 Case AccountState.LOGIN_OK
-
                     Console.WriteLine("[{0}] [{1}:{2}] Account found [{3}]", Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port, packet_account)
 
                     Dim account(data(33) - 1) As Byte
@@ -386,7 +385,13 @@ Public Module RS_Main
 
                     Client.Language = ClientLanguage
                     Client.Expansion = result.Rows(0).Item("expansion")
-                    Client.AuthEngine = New AuthEngineClass
+                    Try
+                        Client.AuthEngine = New AuthEngineClass
+                    Catch ex As Exception
+                        Console.ForegroundColor = System.ConsoleColor.Red
+                        Console.WriteLine("[{0}] [{1}:{2}] Error loading AuthEngine: {3}{4}", Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port, vbNewLine, ex)
+                        Console.ForegroundColor = System.ConsoleColor.White
+                    End Try
                     Client.AuthEngine.CalculateX(account, password)
 
                     Dim data_response(118) As Byte
@@ -403,7 +408,6 @@ Public Module RS_Main
                     data_response(118) = 0
                     Client.Send(data_response)
                     Exit Sub
-
                 Case AccountState.LOGIN_UNKNOWN_ACCOUNT
                     Console.WriteLine("[{0}] [{1}:{2}] Account not found [{3}]", Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port, packet_account)
                 Case AccountState.LOGIN_BANNED
@@ -479,7 +483,6 @@ Public Module RS_Main
         'Calculate U and M1
         Client.AuthEngine.CalculateU(A)
         Client.AuthEngine.CalculateM1()
-        'Client.AuthEngine.CalculateCRCHash()
 
         'Check M1=ClientM1
         Dim pass_check As Boolean = True
@@ -817,23 +820,40 @@ Public Module RS_Main
         Console.Title = String.Format("{0} v{1} r{2}", [Assembly].GetExecutingAssembly().GetCustomAttributes(GetType(System.Reflection.AssemblyTitleAttribute), False)(0).Title, [Assembly].GetExecutingAssembly().GetName().Version, Common.RevisionReader.GetBuildRevision())
 
         Console.ForegroundColor = System.ConsoleColor.Yellow
-        Console.WriteLine([Assembly].GetExecutingAssembly().GetCustomAttributes(GetType(System.Reflection.AssemblyProductAttribute), False)(0).Product)
-        Console.WriteLine([Assembly].GetExecutingAssembly().GetCustomAttributes(GetType(System.Reflection.AssemblyCopyrightAttribute), False)(0).Copyright)
-        Console.WriteLine()
+
+        Console.WriteLine(" ####       ####            ###     ###   ########    #######     ######## ")
+        Console.WriteLine(" #####     #####            ####    ###  ##########  #########   ##########")
+        Console.WriteLine(" #####     #####            #####   ###  ##########  #########   ##########")
+        Console.WriteLine(" ######   ######            #####   ###  ###        ####   ####  ###       ")
+        Console.WriteLine(" ######   ######    ####    ######  ###  ###        ###     ###  ###       ")
+        Console.WriteLine(" ####### #######   ######   ######  ###  ###  ##### ###     ###  ########  ")
+        Console.WriteLine(" ### ### ### ###   ######   ####### ###  ###  ##### ###     ###  ######### ")
+        Console.WriteLine(" ### ### ### ###  ###  ###  ### ### ###  ###  ##### ###     ###   #########")
+        Console.WriteLine(" ### ####### ###  ###  ###  ###  ######  ###    ### ###     ###        ####")
+        Console.WriteLine(" ### ####### ###  ###  ###  ###  ######  ###    ### ###     ###         ###")
+        Console.WriteLine(" ###  #####  ### ########## ###   #####  ###   #### ####   ####        ####")
+        Console.WriteLine(" ###  #####  ### ########## ###   #####  #########   #########   ##########")
+        Console.WriteLine(" ###  #####  ### ###    ### ###    ####  #########   #########   ######### ")
+        Console.WriteLine(" ###   ###   ### ###    ### ###     ###   #######     #######     #######  ")
+        Console.WriteLine("")
+        Console.WriteLine(" Website: http://www.getmangos.co.uk                         ##  ##  ##### ")
+        Console.WriteLine("                                                             ##  ##  ##  ##")
+        Console.WriteLine("    Wiki: http://github.com/mangoswiki/wiki                  ##  ##  ##### ")
+        Console.WriteLine("                                                              ####   ##  ##")
+        Console.WriteLine("   Forum: http://community.getmangos.co.uk                     ##    ##### ")
+        Console.WriteLine("")
+
 
         Console.ForegroundColor = System.ConsoleColor.Magenta
-        Console.WriteLine("http://www.SpuriousEmu.com")
-        Console.WriteLine()
 
         Console.ForegroundColor = System.ConsoleColor.White
-        Console.WriteLine([Assembly].GetExecutingAssembly().GetCustomAttributes(GetType(System.Reflection.AssemblyTitleAttribute), False)(0).Title)
-        Console.WriteLine("version {0}", [Assembly].GetExecutingAssembly().GetName().Version)
+        Console.Write([Assembly].GetExecutingAssembly().GetCustomAttributes(GetType(System.Reflection.AssemblyTitleAttribute), False)(0).Title)
+        Console.WriteLine(" version {0}", [Assembly].GetExecutingAssembly().GetName().Version)
         Console.WriteLine("revision {0}", Common.RevisionReader.GetBuildRevision())
         Console.WriteLine()
         Console.ForegroundColor = System.ConsoleColor.Gray
 
         Console.WriteLine("[{0}] Realm Server Starting...", Format(TimeOfDay, "hh:mm:ss"))
-
         LoadConfig()
         AddHandler Database.SQLMessage, AddressOf SLQEventHandler
         Database.Connect()
@@ -860,17 +880,17 @@ Public Module RS_Main
                             End
                         Case "help", "/help"
                             Console.ForegroundColor = System.ConsoleColor.Blue
-                            Console.WriteLine("'Spurious.RealmServer' Command list:")
+                            Console.WriteLine("'RealmServer' Command list:")
                             Console.ForegroundColor = System.ConsoleColor.White
                             Console.WriteLine("---------------------------------")
                             Console.WriteLine("")
                             Console.WriteLine("")
-                            Console.WriteLine("'help' or '/help' - Brings up the 'Spurious.RealmServer' Command list (this).")
+                            Console.WriteLine("'help' or '/help' - Brings up the RealmServer' Command list (this).")
                             Console.WriteLine("")
-                            Console.WriteLine("'/quit' or '/shutdown' or 'off' or 'kill' or 'exit' - Shutsdown 'Spurious.RealmServer'.")
+                            Console.WriteLine("'/quit' or '/shutdown' or 'off' or 'kill' or 'exit' - Shutsdown 'RealmServer'.")
                         Case Else
                             Console.ForegroundColor = System.ConsoleColor.DarkRed
-                            Console.WriteLine("Error!. Cannot find specified command. Please type 'help' for information on 'Spurious.RealmServer' console commands.")
+                            Console.WriteLine("Error!. Cannot find specified command. Please type 'help' for information on 'RealmServer' console commands.")
                             Console.ForegroundColor = System.ConsoleColor.White
                     End Select
                 End If

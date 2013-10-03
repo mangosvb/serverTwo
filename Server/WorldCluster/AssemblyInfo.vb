@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Spurious.WorldCluster")> 
+<Assembly: AssemblyTitle("WorldCluster")> 
 <Assembly: AssemblyDescription("World Cluster part of MaNGOSvb Server Emulator.")> 
 <Assembly: AssemblyCompany("getMaNGOS")> 
 <Assembly: AssemblyProduct("MaNGOSvb Server Pack")> 

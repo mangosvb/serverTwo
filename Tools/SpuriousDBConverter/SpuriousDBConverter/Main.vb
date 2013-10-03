@@ -1,4 +1,4 @@
-﻿Imports Spurious.Common
+﻿imports mangosVB.Common
 Imports System.IO
 Imports System.Reflection
 
@@ -39,7 +39,7 @@ Module Main
             Console.WriteLine()
 
             Console.ForegroundColor = System.ConsoleColor.Magenta
-            Console.WriteLine("http://www.SpuriousEmu.com")
+            Console.WriteLine("http://www.www.getmangos.co.uk")
             Console.WriteLine()
 
             'DONE: Get all the sql info

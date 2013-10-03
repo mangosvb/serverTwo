@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Security.Cryptography
@@ -339,8 +338,8 @@ Public Class AuthEngineClass
         Return CombineBuffer
 
     End Function
-    Public Shared Function Concat(ByVal Buffer1 As Byte(), ByVal Buffer2 As Byte()) As Byte()
 
+    Public Shared Function Concat(ByVal Buffer1 As Byte(), ByVal Buffer2 As Byte()) As Byte()
         Dim ConcatBuffer As Byte() = New Byte(Buffer1.Length + Buffer2.Length - 1) {}
         Array.Copy(Buffer1, ConcatBuffer, Buffer1.Length)
         Array.Copy(Buffer2, 0, ConcatBuffer, Buffer1.Length, Buffer2.Length)
@@ -351,6 +350,7 @@ Public Class AuthEngineClass
     Public Shared Function RAND_bytes(ByVal buf As Byte(), ByVal num As Integer) As Integer
 
     End Function
+
     Private Shared Function Split(ByVal ByteBuffer As Byte()) As ArrayList
 
         Dim SplitBuffer1 As Byte() = New Byte(ByteBuffer.Length / 2 - 1) {}
@@ -370,11 +370,11 @@ Public Class AuthEngineClass
             Counter += 2
         Next
 
+
         ReturnList.Add(SplitBuffer1)
         ReturnList.Add(SplitBuffer2)
 
         Return ReturnList
-
     End Function
 #End Region
 

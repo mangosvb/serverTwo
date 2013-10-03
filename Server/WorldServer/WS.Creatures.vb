@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2008 Spurious <http://SpuriousEmu.com>
+' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
-
 Imports System.Threading
 Imports System.Runtime.CompilerServices
-Imports Spurious.Common.BaseWriter
+Imports mangosVB.Common.BaseWriter
+Imports mangosVB.Common
 
 Public Module WS_Creatures
 
@@ -106,13 +106,14 @@ Public Module WS_Creatures
                     TalkScript = New TDefaultTalk
                 End If
             End If
-
             CREATURESDatabase.Add(Id, Me)
         End Sub
+
         Public Sub New()
             Damage.Minimum = (0.8F * BaseAttackTime / 1000.0F) * (LevelMin * 10.0F)
             Damage.Maximum = (1.2F * BaseAttackTime / 1000.0F) * (LevelMax * 10.0F)
         End Sub
+
         Public Sub Dispose() Implements System.IDisposable.Dispose
             CREATURESDatabase.Remove(Id)
         End Sub
@@ -230,12 +231,6 @@ Public Module WS_Creatures
                 Return CREATURESDatabase(ID)
             End Get
         End Property
-
-        'Public ReadOnly Property CreatureWaypoints() As CreatureWaypoints
-        '    Get
-        '        Return CREATURESWayPoints(SpawnID)
-        '    End Get
-        'End Property
 
         Public ID As Integer = 0
         Public aiScript As TBaseAI = Nothing
