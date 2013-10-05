@@ -113,7 +113,14 @@ Public Module WC_Handlers
         PacketHandlers(OPCODES.CMSG_CHANNEL_VOICE_ON) = CType(AddressOf On_CMSG_CHANNEL_VOICE_ON, HandlePacket)
         PacketHandlers(OPCODES.CMSG_CHANNEL_VOICE_OFF) = CType(AddressOf On_CMSG_CHANNEL_VOICE_OFF, HandlePacket)
         PacketHandlers(OPCODES.CMSG_VOICE_SESSION_ENABLE) = CType(AddressOf On_CMSG_VOICE_SESSION_ENABLE, HandlePacket)
+        'PacketHandlers(OPCODES.CMSG_VOICE_SET_TALKER_MUTED_REQUEST) = CType(AddressOf On_CMSG_VOICE_SET_TALKER_MUTED_REQUEST, HandlePacket) 'UNHANDLED
+        'PacketHandlers(OPCODES.CMSG_CHANNEL_SILENCE_VOICE) = CType(AddressOf On_CMSG_CHANNEL_SILENCE_VOICE, HandlePacket) 'UNHANDLED
+        'PacketHandlers(OPCODES.CMSG_CHANNEL_SILENCE_ALL) = CType(AddressOf On_CMSG_CHANNEL_SILENCE_ALL, HandlePacket) 'UNHANDLED
+        'PacketHandlers(OPCODES.CMSG_CHANNEL_UNSILENCE_VOICE) = CType(AddressOf On_CMSG_CHANNEL_UNSILENCE_VOICE, HandlePacket) 'UNHANDLED
+        'PacketHandlers(OPCODES.CMSG_CHANNEL_UNSILENCE_ALL) = CType(AddressOf On_CMSG_CHANNEL_UNSILENCE_ALL, HandlePacket) 'UNHANDLED
         PacketHandlers(OPCODES.CMSG_SET_ACTIVE_VOICE_CHANNEL) = CType(AddressOf On_CMSG_SET_ACTIVE_VOICE_CHANNEL, HandlePacket)
+        'PacketHandlers(OPCODES.CMSG_ADD_VOICE_IGNORE) = CType(AddressOf On_CMSG_ADD_VOICE_IGNORE, HandlePacket) 'UNHANDLED
+        'PacketHandlers(OPCODES.CMSG_DEL_VOICE_IGNORE) = CType(AddressOf On_CMSG_DEL_VOICE_IGNORE, HandlePacket) 'UNHANDLED
 
         PacketHandlers(OPCODES.CMSG_CHAT_IGNORED) = CType(AddressOf On_CMSG_CHAT_IGNORED, HandlePacket)
         PacketHandlers(OPCODES.CMSG_MESSAGECHAT) = CType(AddressOf On_CMSG_MESSAGECHAT, HandlePacket)

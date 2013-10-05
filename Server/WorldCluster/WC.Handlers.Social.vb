@@ -149,6 +149,7 @@ Public Module WC_Handlers_Social
             Zones.Add(packet.GetUInt32)
         Next
         Dim StringsCount As UInteger = packet.GetUInt32         'Limited to 4
+        'NOTE: We are reading only the first string
         Dim Strings As New List(Of String)
         For i As Integer = 1 To StringsCount
             Strings.Add(UCase(EscapeString(packet.GetString())))

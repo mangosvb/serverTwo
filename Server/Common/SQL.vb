@@ -78,6 +78,7 @@ Public Class SQL
     Private v_SQLUser As String = ""
     Private v_SQLPass As String = ""
     Private v_SQLDBName As String = ""
+    
     Public Enum DB_Type
         MySQL = 0
         MSSQL = 1

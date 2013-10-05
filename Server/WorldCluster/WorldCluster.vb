@@ -97,7 +97,7 @@ Public Module WorldCluster
 
             Console.WriteLine(".[done]")
 
-            'DONE: Setting SQL Connection
+            'DONE: Setting SQL Connections
             Database.SQLDBName = Config.SQLDBName
             Database.SQLHost = Config.SQLHost
             Database.SQLPort = Config.SQLPort
@@ -116,7 +116,7 @@ Public Module WorldCluster
 #End Region
 
 #Region "WS.DataAccess"
-    Public Database As New Sql
+    Public Database As New SQL
     Public Sub SLQEventHandler(ByVal MessageID As Sql.EMessages, ByVal OutBuf As String)
         Select Case MessageID
             Case SQL.EMessages.ID_Error

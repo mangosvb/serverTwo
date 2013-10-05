@@ -15,6 +15,7 @@
 ' along with this program; if not, write to the Free Software
 ' Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 '
+
 Imports System
 Imports System.IO
 Imports System.Threading
@@ -320,7 +321,7 @@ Public Module WC_Network
             If (Not WS.Worlds.ContainsKey(MapID)) Then
                 'We don't create new continents
                 If IsContinentMap(MapID) Then
-                    Log.WriteLine(LogType.WARNING, "[{0:000000}] Requestied instance map [{1}] is a continent", Client.Index, MapID)
+                    Log.WriteLine(LogType.WARNING, "[{0:000000}] Requested instance map [{1}] is a continent", Client.Index, MapID)
 
                     Dim SMSG_LOGOUT_COMPLETE As New PacketClass(OPCODES.SMSG_LOGOUT_COMPLETE)
                     Client.Send(SMSG_LOGOUT_COMPLETE)
@@ -350,7 +351,7 @@ Public Module WC_Network
                 End If
 
                 If ParentMap Is Nothing Then
-                    Log.WriteLine(LogType.WARNING, "[{0:000000}] Requestied instance map [{1}] can't be loaded", Client.Index, MapID)
+                    Log.WriteLine(LogType.WARNING, "[{0:000000}] Requested instance map [{1}] can't be loaded", Client.Index, MapID)
 
                     Dim SMSG_LOGOUT_COMPLETE As New PacketClass(OPCODES.SMSG_LOGOUT_COMPLETE)
                     Client.Send(SMSG_LOGOUT_COMPLETE)
@@ -428,8 +429,12 @@ Public Module WC_Network
 
                 Log.WriteLine(LogType.NETWORK, "[G{0:00000}] Group update request", CLIENTs(ID).Character.Group.ID)
 
-                CLIENTs(ID).Character.GetWorld.GroupUpdate(CLIENTs(ID).Character.Group.ID, CLIENTs(ID).Character.Group.Type, CLIENTs(ID).Character.Group.GetLeader.GUID, CLIENTs(ID).Character.Group.GetMembers)
-                CLIENTs(ID).Character.GetWorld.GroupUpdateLoot(CLIENTs(ID).Character.Group.ID, CLIENTs(ID).Character.Group.DungeonDifficulty, CLIENTs(ID).Character.Group.LootMethod, CLIENTs(ID).Character.Group.LootThreshold, CLIENTs(ID).Character.Group.GetLootMaster.GUID)
+                Try
+                    CLIENTs(ID).Character.GetWorld.GroupUpdate(CLIENTs(ID).Character.Group.ID, CLIENTs(ID).Character.Group.Type, CLIENTs(ID).Character.Group.GetLeader.GUID, CLIENTs(ID).Character.Group.GetMembers)
+                    CLIENTs(ID).Character.GetWorld.GroupUpdateLoot(CLIENTs(ID).Character.Group.ID, CLIENTs(ID).Character.Group.DungeonDifficulty, CLIENTs(ID).Character.Group.LootMethod, CLIENTs(ID).Character.Group.LootThreshold, CLIENTs(ID).Character.Group.GetLootMaster.GUID)
+                Catch
+                    WS.Disconnect("NULL", New Integer() {CLIENTs(ID).Character.Map})
+                End Try
             End If
         End Sub
         Public Sub GroupSendUpdate(ByVal GroupID As Long)
@@ -765,12 +770,12 @@ Public Module WC_Network
         End Sub
 
         Public Sub EnQueue(ByVal state As Object)
-            While CHARACTERS.Count > Config.ServerLimit
+            While CHARACTERs.Count > Config.ServerLimit
                 If Not Me.Socket.Connected Then Exit Sub
 
                 Dim response_full As New PacketClass(OPCODES.SMSG_AUTH_RESPONSE)
                 response_full.AddInt8(AuthResponseCodes.AUTH_WAIT_QUEUE)
-                response_full.AddInt32(CLIENTs.Count - CHARACTERS.Count)            'amount of players in queue
+                response_full.AddInt32(CLIENTs.Count - CHARACTERs.Count)            'amount of players in queue
                 Me.Send(response_full)
 
                 Log.WriteLine(LogType.INFORMATION, "[{1}:{2}] AUTH_WAIT_QUEUE: Server limit reached!", Me.IP, Me.Port)
@@ -781,5 +786,20 @@ Public Module WC_Network
     End Class
 
 #End Region
+
+    Function IP2Int(ByVal IP As String) As UInteger
+        Dim IpSplit() As String = IP.Split(".")
+        If IpSplit.Length <> 4 Then Return 0
+        Dim IpBytes(3) As Byte
+        Try
+            IpBytes(0) = CByte(IpSplit(3))
+            IpBytes(1) = CByte(IpSplit(2))
+            IpBytes(2) = CByte(IpSplit(1))
+            IpBytes(3) = CByte(IpSplit(0))
+            Return BitConverter.ToUInt32(IpBytes, 0)
+        Catch
+            Return 0
+        End Try
+    End Function
 
 End Module

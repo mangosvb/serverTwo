@@ -1,6 +1,6 @@
 ServerOne 
 =========
-*MaNGOSVB ServerTwo* is a full featured server for [World of Warcraft][2], in its vanilla
+*MaNGOSVB ServerTwo* is a fast developing server for [World of Warcraft][2], in its vanilla
 version supporting clients from the [patch 3.3.5][50] branch, specifically patch
 3.3.5a.
 

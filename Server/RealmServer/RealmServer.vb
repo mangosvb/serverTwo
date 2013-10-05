@@ -94,6 +94,7 @@ Public Module RS_Main
     Public Config As XMLConfigFile
     <XmlRoot(ElementName:="RealmServer")> _
     Public Class XMLConfigFile
+        'Server Configurations
         <XmlElement(ElementName:="RSPort")> Public RSPort As Int32 = 0
         <XmlElement(ElementName:="RSHost")> Public RSHost As String = "localhost"
         <XmlElement(ElementName:="SQLUser")> Public SQLUser As String = "root"
@@ -430,8 +431,8 @@ Public Module RS_Main
             If Dir("Updates/wow-patch-" & (Val("&H" & Hex(data(12)) & Hex(data(11)))) & "-" & Chr(data(24)) & Chr(data(23)) & Chr(data(22)) & Chr(data(21)) & ".mpq") <> "" Then
                 'Send UPDATE_MPQ
                 Console.WriteLine("[{0}] [{1}:{2}] CMD_XFER_INITIATE [" & Chr(data(6)) & Chr(data(5)) & Chr(data(4)) & " " & data(8) & "." & data(9) & "." & data(10) & "." & (Val("&H" & Hex(data(12)) & Hex(data(11)))) & " " _
-                    & Chr(data(15)) & Chr(data(14)) & Chr(data(13)) & " " & Chr(data(19)) & Chr(data(18)) & Chr(data(17)) & " " & Chr(data(24)) & Chr(data(23)) & Chr(data(22)) & Chr(data(21)) & "]" _
-                    , Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port)
+                                  & Chr(data(15)) & Chr(data(14)) & Chr(data(13)) & " " & Chr(data(19)) & Chr(data(18)) & Chr(data(17)) & " " & Chr(data(24)) & Chr(data(23)) & Chr(data(22)) & Chr(data(21)) & "]" _
+                                  , Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port)
 
                 Client.UpdateFile = "Updates/wow-patch-" & (Val("&H" & Hex(data(12)) & Hex(data(11)))) & "-" & Chr(data(24)) & Chr(data(23)) & Chr(data(22)) & Chr(data(21)) & ".mpq"
                 Dim data_response(30) As Byte
@@ -460,8 +461,8 @@ Public Module RS_Main
             Else
                 'Send BAD_VERSION
                 Console.WriteLine("[{0}] [{1}:{2}] WRONG_VERSION [" & Chr(data(6)) & Chr(data(5)) & Chr(data(4)) & " " & data(8) & "." & data(9) & "." & data(10) & "." & (Val("&H" & Hex(data(12)) & Hex(data(11)))) & " " _
-                                    & Chr(data(15)) & Chr(data(14)) & Chr(data(13)) & " " & Chr(data(19)) & Chr(data(18)) & Chr(data(17)) & " " & Chr(data(24)) & Chr(data(23)) & Chr(data(22)) & Chr(data(21)) & "]" _
-                                    , Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port)
+                                  & Chr(data(15)) & Chr(data(14)) & Chr(data(13)) & " " & Chr(data(19)) & Chr(data(18)) & Chr(data(17)) & " " & Chr(data(24)) & Chr(data(23)) & Chr(data(22)) & Chr(data(21)) & "]" _
+                                  , Format(TimeOfDay, "hh:mm:ss"), Client.IP, Client.Port)
                 Dim data_response(1) As Byte
                 data_response(0) = CMD_AUTH_LOGON_PROOF
                 data_response(1) = AccountState.LOGIN_BADVERSION
@@ -897,4 +898,19 @@ Public Module RS_Main
             Next
         End While
     End Sub
+
+    Function IP2Int(ByVal IP As String) As UInteger
+        Dim IpSplit() As String = IP.Split(".")
+        If IpSplit.Length <> 4 Then Return 0
+        Dim IpBytes(3) As Byte
+        Try
+            IpBytes(0) = CByte(IpSplit(3))
+            IpBytes(1) = CByte(IpSplit(2))
+            IpBytes(2) = CByte(IpSplit(1))
+            IpBytes(3) = CByte(IpSplit(0))
+            Return BitConverter.ToUInt32(IpBytes, 0)
+        Catch
+            Return 0
+        End Try
+    End Function
 End Module

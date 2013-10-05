@@ -60,10 +60,10 @@ Public Module WC_Handlers_Chat
                 Dim Message As String = packet.GetString()
 
                 'DONE: Handle admin/gm commands
-                If ToUser = "Warden" AndAlso Client.Character.Access > 0 Then
-                    Client.Character.GetWorld.ClientPacket(Client.Index, packet.Data)
-                    Exit Sub
-                End If
+                'If ToUser = "WARDEN" AndAlso Client.Character.Access > 0 Then
+                '    Client.Character.GetWorld.ClientPacket(Client.Index, packet.Data)
+                '    Exit Sub
+                'End If
 
                 'DONE: Send whisper MSG to receiver
                 Dim GUID As ULong = 0
@@ -166,7 +166,7 @@ Public Module WC_Handlers_Chat
                 Exit Select
 
             Case ChatMsg.CHAT_MSG_OFFICER, ChatMsg.CHAT_MSG_GUILD
-                'TODO: Move to Cluster
+                'ToBe Moved to Cluster
                 Client.Character.GetWorld.ClientPacket(Client.Index, packet.Data)
                 Exit Select
 
