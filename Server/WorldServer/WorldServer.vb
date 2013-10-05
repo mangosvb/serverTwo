@@ -350,17 +350,28 @@ Public Module WS_Main
                                 CHARACTERs(CType(cmds(1), Long)) = test
                                 AddToWorld(test)
                                 Log.WriteLine(LogType.DEBUG, "Spawned character " & test.Name)
-                            Case "createaccount", "/createaccount"
-                                'Database.InsertSQL([String].Format("INSERT INTO accounts (account, password, email, joindate, last_ip) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}')", cmd(1), cmd(2), cmd(3), Format(Now, "yyyy-MM-dd"), "0.0.0.0"))
-                                'If Database.QuerySQL("SELECT * FROM accounts WHERE account = "" & packet_account & "";") Then
-                                AccountDatabase.InsertSQL([String].Format("INSERT INTO accounts (account, password, email, joindate, last_ip) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}')", cmd(1), cmd(2), cmd(3), Format(Now, "yyyy-MM-dd"), "0.0.0.0"))
-                                If AccountDatabase.QuerySQL("SELECT * FROM accounts WHERE account = "" & packet_account & "";") Then
-                                    Console.ForegroundColor = System.ConsoleColor.DarkGreen
-                                    Console.WriteLine("[Account: " & cmd(1) & " Password: " & cmd(2) & " Email: " & cmd(3) & "] has been created.")
-                                    Console.ForegroundColor = System.ConsoleColor.Gray
+                            Case "createaccount", "/createaccount", "create"
+                                cmd = cmds(1).Split(" ")
+                                If cmd.Length = 3 Then
+                                    If AccountDatabase.QuerySQL("SELECT * FROM accounts WHERE account = '" & cmd(0).ToUpper & "';") Then
+                                        Console.ForegroundColor = System.ConsoleColor.DarkRed
+                                        Console.WriteLine("Account name exist. Aborting command: createaccount.")
+                                        Console.ForegroundColor = System.ConsoleColor.Gray
+                                    Else
+                                        AccountDatabase.InsertSQL([String].Format("INSERT INTO accounts (account, password, email, joindate, last_ip) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}')", cmd(0).ToUpper, cmd(1), cmd(2), Format(Now, "yyyy-MM-dd"), "0.0.0.0"))
+                                        If AccountDatabase.QuerySQL("SELECT * FROM accounts WHERE account = '" & cmd(0).ToUpper & "';") Then
+                                            Console.ForegroundColor = System.ConsoleColor.DarkGreen
+                                            Console.WriteLine("[Account: " & cmd(0) & " Password: " & cmd(1) & " Email: " & cmd(2) & "] has been created.")
+                                            Console.ForegroundColor = System.ConsoleColor.Gray
+                                        Else
+                                            Console.ForegroundColor = System.ConsoleColor.DarkRed
+                                            Console.WriteLine("[Account: " & cmd(0) & " Password: " & cmd(1) & " Email: " & cmd(2) & "] could not be created.")
+                                            Console.ForegroundColor = System.ConsoleColor.Gray
+                                        End If
+                                    End If
                                 Else
                                     Console.ForegroundColor = System.ConsoleColor.DarkRed
-                                    Console.WriteLine("[Account: " & cmd(1) & " Password: " & cmd(2) & " Email: " & cmd(3) & "] could not be created.")
+                                    Console.WriteLine("Wrong count of parameters: 3 parameters required as: <name> <password> <email>")
                                     Console.ForegroundColor = System.ConsoleColor.Gray
                                 End If
                             Case "exec", "/exec"
