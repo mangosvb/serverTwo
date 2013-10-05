@@ -198,8 +198,8 @@ Public Module WS_Handlers_Misc
         packet.GetInt16()
         Dim Flag As Integer = packet.GetInt32()
         Log.WriteLine(LogType.DEBUG, "[{0}:{1}] CMSG_TUTORIAL_FLAG [flag={2}]", Client.IP, Client.Port, Flag)
-
-        Client.Character.TutorialFlags((Flag \ 8)) = Client.Character.TutorialFlags((Flag \ 8)) + (1 << 7 - (Flag Mod 8))
+        ' Client.Character.TutorialFlags((Flag \ 8)) = Client.Character.TutorialFlags((Flag \ 8)) + (1 << 7 - (Flag Mod 8))
+        Client.Character.TutorialFlags(Flag \ 8) = Client.Character.TutorialFlags(Flag \ 8) Or CByte(1 << (CInt(Flag) Mod 8)) ' adapted from wcell
         Client.Character.SaveCharacter()
     End Sub
     Public Sub On_CMSG_TUTORIAL_CLEAR(ByRef packet As PacketClass, ByRef Client As ClientClass)
