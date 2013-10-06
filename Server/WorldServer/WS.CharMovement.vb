@@ -412,6 +412,12 @@ Module WS_CharMovement
 
     Public Sub On_MSG_MOVE_FALL_LAND(ByRef packet As PacketClass, ByRef Client As ClientClass)
         Try
+
+            If Client.Character.FullyLoggedIn = False Then
+                Client.Character.FullyLoggedIn = True
+                Exit Sub
+            End If
+
             OnMovementPacket(packet, Client)
 
             packet.Offset = 6

@@ -4486,7 +4486,9 @@ CheckXPAgain:
             'DONE: Enable client moving
             SendTimeSyncReq(Client)
 
-            FullyLoggedIn = True
+            'the player die while falling 16350. so i set the FullyLoggedIn=true in the errorhandler On_MSG_MOVE_FALL_LAND
+            'FullyLoggedIn = True
+
             UpdateManaRegen()
         End Sub
         Public Sub Dispose() Implements System.IDisposable.Dispose
