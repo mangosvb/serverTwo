@@ -755,12 +755,18 @@ Public Module WS_Maps
 
         Dim MysqlQuery As New DataTable
         ''Database.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+        Static c As Integer = 0
+        Exit Sub
+        If c > 1 Then Exit Sub
         WorldDatabase.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
         For Each InfoRow As DataRow In MysqlQuery.Rows
             If Not WORLD_CREATUREs.ContainsKey(CType(InfoRow.Item("spawn_id"), Long) + GUID_UNIT) Then
                 Dim tmpCr As CreatureObject = New CreatureObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
                 tmpCr.instance = TileInstance
+                c += 1
+                Debug.Print(c & " " & tmpCr.Name & " " & tmpCr.positionX & " " & tmpCr.positionY)
                 tmpCr.AddToWorld()
+                If c > 1 Then Exit Sub
             End If
         Next
 
