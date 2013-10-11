@@ -135,8 +135,11 @@ Public Module WS_Network
             Log.WriteLine(LogType.NETWORK, "[{0:000000}] Client connected", ID)
 
             Dim c As New ClientClass(Client)
-
-            CLIENTs.Add(ID, c)
+            If CLIENTs.ContainsKey(ID) = False Then
+                CLIENTs.Add(ID, c)
+            Else
+                CLIENTs.Item(ID) = c
+            End If
         End Sub
         Public Sub ClientDisconnect(ByVal ID As UInteger) Implements Common.IWorld.ClientDisconnect
             Log.WriteLine(LogType.NETWORK, "[{0:000000}] Client disconnected", ID)

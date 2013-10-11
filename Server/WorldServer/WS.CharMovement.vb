@@ -91,8 +91,8 @@ Module WS_CharMovement
 
     Public Enum MovementFlags2 As Integer
         MOVEFLAG2_NONE = &H0
-        MOVEFLAG2_UNK1 = &H1
-        MOVEFLAG2_UNK2 = &H2
+        MOVEFLAG2_NO_STRAFE = &H1
+        MOVEFLAG2_NO_JUMPING = &H2
         MOVEFLAG2_UNK3 = &H4
         MOVEFLAG2_FULLSPEEDTURNING = &H8
         MOVEFLAG2_FULLSPEEDPITCHING = &H10
@@ -412,17 +412,18 @@ Module WS_CharMovement
 
     Public Sub On_MSG_MOVE_FALL_LAND(ByRef packet As PacketClass, ByRef Client As ClientClass)
         Try
+
             OnMovementPacket(packet, Client)
 
-            packet.Offset = 6
+            packet.Offset = 8 ' was 6 bevor, but guid = 8 byte
 
-            Dim movFlags As Integer = packet.GetInt32()
-            Dim movFlags2 As Integer = packet.GetInt16()
-            packet.GetUInt32() ' Time
-            packet.GetFloat() ' X
-            packet.GetFloat() ' Y
-            packet.GetFloat() ' Z
-            packet.GetFloat() ' Orientation
+            Dim movFlags As UInt32 = packet.GetUInt32() ' is not int, is uint32
+            Dim movFlags2 As UInt16 = packet.GetUInt16() ' is not int, is uint16
+            Dim time As UInt32 = packet.GetUInt32() ' Time
+            Dim x As Single = packet.GetFloat() ' X
+            Dim y As Single = packet.GetFloat() ' Y
+            Dim z As Single = packet.GetFloat() ' Z
+            Dim o As Single = packet.GetFloat() ' Orientation
             If (movFlags And MovementFlags.MOVEMENTFLAG_ONTRANSPORT) Then
                 packet.GetPackGUID()
                 packet.GetFloat()
@@ -435,8 +436,13 @@ Module WS_CharMovement
                     packet.GetInt32() ' Time2
                 End If
             End If
-            If (movFlags And (MovementFlags.MOVEMENTFLAG_SWIMMING Or MovementFlags.MOVEMENTFLAG_FLYING)) OrElse (movFlags2 And MovementFlags2.MOVEFLAG2_ALLOW_PITCHING) Then
-                packet.GetFloat()
+            If packet.Length <> 36 Then ' only for test, the pitching is often readed, without packet contend
+#If DEBUG Then
+                Stop
+#End If
+                If (movFlags And (MovementFlags.MOVEMENTFLAG_SWIMMING Or MovementFlags.MOVEMENTFLAG_FLYING)) OrElse (movFlags2 And MovementFlags2.MOVEFLAG2_ALLOW_PITCHING) Then
+                    packet.GetFloat()
+                End If
             End If
             Dim FallTime As Integer = packet.GetInt32()
 
@@ -465,11 +471,13 @@ Module WS_CharMovement
                     End If
                 End If
             End If
-
-            If Not Client.Character.underWaterTimer Is Nothing Then
-                Client.Character.underWaterTimer.Dispose()
-                Client.Character.underWaterTimer = Nothing
-            End If
+            '
+            ' this is maybe wrong.. on underWaterTimer.dispose its occur often a NullReferenceException error  
+            ' If Not Client.Character.underWaterTimer Is Nothing Then
+            '     Client.Character.underWaterTimer.Dispose()
+            '     Client.Character.underWaterTimer = Nothing
+            ' End If
+            '
             If Not Client.Character.LogoutTimer Is Nothing Then
                 'DONE: Initialize packet
                 Dim UpdateData As New UpdateClass

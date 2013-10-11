@@ -292,7 +292,7 @@ Public Module Functions
                 FoundData = True
             Else
                 'Database.Update(String.Format("INSERT INTO account_data VALUES({0}, 0, '', 0, '', 0, '', 0, '', 0, '', 0, '', 0, '', 0, '')", AccID))
-                AccountDatabase.Update(String.Format("INSERT INTO account_data VALUES({0}, '', '', '', '', '', '', '', '')", AccID))
+                AccountDatabase.Update(String.Format("INSERT INTO account_data VALUES({0}, 0, '', 0, '', 0, '', 0, '', 0, '', 0, '', 0, '', 0, '')", AccID))
             End If
         End If
 

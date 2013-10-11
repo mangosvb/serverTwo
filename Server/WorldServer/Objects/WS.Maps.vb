@@ -755,36 +755,43 @@ Public Module WS_Maps
 
         Dim MysqlQuery As New DataTable
         ''Database.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        'WorldDatabase.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        'For Each InfoRow As DataRow In MysqlQuery.Rows
-        '    If Not WORLD_CREATUREs.ContainsKey(CType(InfoRow.Item("spawn_id"), Long) + GUID_UNIT) Then
-        '        Dim tmpCr As CreatureObject = New CreatureObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
-        '        tmpCr.instance = TileInstance
-        '        tmpCr.AddToWorld()
-        '    End If
-        'Next
+        Static c As Integer = 0
+        'TODO:  spawn only one creature for test
+        If c = 0 Then
+            WorldDatabase.Query(String.Format("SELECT * FROM spawns_creatures WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+            For Each InfoRow As DataRow In MysqlQuery.Rows
+                If Not WORLD_CREATUREs.ContainsKey(CType(InfoRow.Item("spawn_id"), Long) + GUID_UNIT) Then
+                    Dim tmpCr As CreatureObject = New CreatureObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
+                    tmpCr.instance = TileInstance
+                    c += 1
+                    Debug.Print(c & " " & tmpCr.Name & " " & tmpCr.positionX & " " & tmpCr.positionY)
+                    tmpCr.AddToWorld()
+                    If c > 0 Then Exit Sub
+                End If
+            Next
 
-        MysqlQuery.Clear()
-        'Database.Query(String.Format("SELECT * FROM spawns_gameobjects WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        WorldDatabase.Query(String.Format("SELECT * FROM spawns_gameobjects WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        For Each InfoRow As DataRow In MysqlQuery.Rows
-            If Not WORLD_GAMEOBJECTs.ContainsKey(CType(InfoRow.Item("spawn_id"), ULong) + GUID_GAMEOBJECT) Then
-                Dim tmpGo As GameObjectObject = New GameObjectObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
-                tmpGo.instance = TileInstance
-                tmpGo.AddToWorld()
-            End If
-        Next
+            MysqlQuery.Clear()
+            'Database.Query(String.Format("SELECT * FROM spawns_gameobjects WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+            WorldDatabase.Query(String.Format("SELECT * FROM spawns_gameobjects WHERE spawn_map = {0} AND spawn_positionX BETWEEN '{1}' AND '{2}' AND spawn_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+            For Each InfoRow As DataRow In MysqlQuery.Rows
+                If Not WORLD_GAMEOBJECTs.ContainsKey(CType(InfoRow.Item("spawn_id"), ULong) + GUID_GAMEOBJECT) Then
+                    Dim tmpGo As GameObjectObject = New GameObjectObject(CType(InfoRow.Item("spawn_id"), Long), InfoRow)
+                    tmpGo.instance = TileInstance
+                    tmpGo.AddToWorld()
+                End If
+            Next
 
-        MysqlQuery.Clear()
-        'Database.Query(String.Format("SELECT * FROM tmpspawnedcorpses WHERE corpse_mapId IN ({0}) AND corpse_positionX BETWEEN '{1}' AND '{2}' AND corpse_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
-        CharacterDatabase.Query(String.Format("SELECT * FROM tmpspawnedcorpses WHERE corpse_mapId IN ({0}) AND corpse_positionX BETWEEN '{1}' AND '{2}' AND corpse_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY, TileInstance), MysqlQuery)
-        For Each InfoRow As DataRow In MysqlQuery.Rows
-            If Not WORLD_CORPSEOBJECTs.ContainsKey(CType(InfoRow.Item("corpse_guid"), ULong) + GUID_CORPSE) Then
-                Dim tmpCorpse As CorpseObject = New CorpseObject(CType(InfoRow.Item("corpse_guid"), Long), InfoRow)
-                tmpCorpse.instance = TileInstance
-                tmpCorpse.AddToWorld()
-            End If
-        Next
+            MysqlQuery.Clear()
+            'Database.Query(String.Format("SELECT * FROM tmpspawnedcorpses WHERE corpse_mapId IN ({0}) AND corpse_positionX BETWEEN '{1}' AND '{2}' AND corpse_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY), MysqlQuery)
+            CharacterDatabase.Query(String.Format("SELECT * FROM tmpspawnedcorpses WHERE corpse_mapId IN ({0}) AND corpse_positionX BETWEEN '{1}' AND '{2}' AND corpse_positionY BETWEEN '{3}' AND '{4}';", TileMap, MinX, MaxX, MinY, MaxY, TileInstance), MysqlQuery)
+            For Each InfoRow As DataRow In MysqlQuery.Rows
+                If Not WORLD_CORPSEOBJECTs.ContainsKey(CType(InfoRow.Item("corpse_guid"), ULong) + GUID_CORPSE) Then
+                    Dim tmpCorpse As CorpseObject = New CorpseObject(CType(InfoRow.Item("corpse_guid"), Long), InfoRow)
+                    tmpCorpse.instance = TileInstance
+                    tmpCorpse.AddToWorld()
+                End If
+            Next
+        End If
     End Sub
     Public Sub UnloadSpawns(ByVal TileX As Byte, ByVal TileY As Byte, ByVal TileMap As UInteger)
         'Caluclate (x1, y1) and (x2, y2)
