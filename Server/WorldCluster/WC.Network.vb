@@ -241,13 +241,17 @@ Public Module WC_Network
             If CLIENTs.ContainsKey(ID) Then CLIENTs(ID).Send(Data)
         End Sub
         Public Sub ClientDrop(ByVal ID As UInteger) Implements Common.ICluster.ClientDrop
-            Try
-                Log.WriteLine(LogType.INFORMATION, "[{0:000000}] Client drop [M{1:0000}]", ID, CLIENTs(ID).Character.Map)
-                CLIENTs(ID).Character.IsInWorld = False
-                CLIENTs(ID).Character.OnLogout()
-            Catch ex As Exception
-                Log.WriteLine(LogType.INFORMATION, "[{0:000000}] Client drop exception: {1}", ID, ex.ToString)
-            End Try
+            If CLIENTs.ContainsKey(ID) Then
+                Try
+                    Log.WriteLine(LogType.INFORMATION, "[{0:000000}] Client drop [M{1:0000}]", ID, CLIENTs(ID).Character.Map)
+                    CLIENTs(ID).Character.IsInWorld = False
+                    CLIENTs(ID).Character.OnLogout()
+                Catch ex As Exception
+                    Log.WriteLine(LogType.INFORMATION, "[{0:000000}] Client drop exception: {1}", ID, ex.ToString)
+                End Try
+            Else
+                Log.WriteLine(LogType.INFORMATION, "[{0:000000}] Client connection lost.", ID)
+            End If
         End Sub
         Public Sub ClientTransfer(ByVal ID As UInteger, ByVal posX As Single, ByVal posY As Single, ByVal posZ As Single, ByVal ori As Single, ByVal map As UInteger) Implements Common.ICluster.ClientTransfer
             Log.WriteLine(LogType.INFORMATION, "[{0:000000}] Client transfer [M{1:0000}->M{2:0000}]", ID, CLIENTs(ID).Character.Map, map)
@@ -532,8 +536,8 @@ Public Module WC_Network
         Trial = 0
         Player = 1
         GameMaster = 2
-        Admin = 3
-        Developer = 4
+        Developer = 3
+        Admin = 4
     End Enum
 
     Public LastConnections As New Dictionary(Of UInteger, Date)

@@ -17,10 +17,16 @@
 '
 ' build revision extractor by 0xR3v0luti0n
 
+Imports System.IO
+
 Public Class RevisionReader
     Shared Function GetBuildRevision() As Integer
         Try
-            Dim Data() As String = System.IO.File.ReadAllLines(CurDir().Replace("ServerFiles", "") + "\.svn\entries")
+
+            Dim fi As New FileInfo(CurDir().Replace("ServerFiles", "") + "\.svn\entries")
+            If fi.Exists = False Then Return 0
+
+            Dim Data() As String = System.IO.File.ReadAllLines(fi.FullName)
 
             Dim revision As Integer = Convert.ToInt32(Data(3))
             Return revision

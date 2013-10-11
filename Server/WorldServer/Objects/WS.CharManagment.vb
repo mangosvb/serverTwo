@@ -4296,7 +4296,7 @@ CheckXPAgain:
 
             Life.Current -= Damage
 
-            If Life.Current = 0 Then
+            If Life.Current = 0 And IsNothing(Attacker) = False Then
                 Me.Die(Attacker)
                 Exit Sub
             Else
@@ -4487,6 +4487,7 @@ CheckXPAgain:
             SendTimeSyncReq(Client)
 
             FullyLoggedIn = True
+
             UpdateManaRegen()
         End Sub
         Public Sub Dispose() Implements System.IDisposable.Dispose

@@ -99,6 +99,8 @@ Public Module WC_Character
 
             PositionX = CType(MySQLQuery.Rows(0).Item("char_positionX"), Single)
             PositionY = CType(MySQLQuery.Rows(0).Item("char_positionY"), Single)
+            PositionZ = CType(MySQLQuery.Rows(0).Item("char_positionZ"), Single)
+
         End Sub
         Public Sub New(ByVal g As ULong, ByRef c As ClientClass)
             GUID = g

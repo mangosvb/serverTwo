@@ -3294,10 +3294,15 @@ SkipShapeShift:
                                 Log.WriteLine(LogType.DEBUG, "APPLYING AURA {0}", CType(SpellInfo.ApplyAuraIndex, AuraEffects_Names))
                                 Exit For
                             ElseIf auraTarget.ActiveSpells(i).Aura(1) Is Nothing Then
-                                auraTarget.ActiveSpells(i).Aura(1) = AURAs(SpellInfo.ApplyAuraIndex)
-                                auraTarget.ActiveSpells(i).Aura_Info(1) = SpellInfo
-                                Log.WriteLine(LogType.DEBUG, "APPLYING AURA {0}", CType(SpellInfo.ApplyAuraIndex, AuraEffects_Names))
-                                Exit For
+                                If AURAs.Length > SpellInfo.ApplyAuraIndex Then
+                                    auraTarget.ActiveSpells(i).Aura(1) = AURAs(SpellInfo.ApplyAuraIndex)
+                                    auraTarget.ActiveSpells(i).Aura_Info(1) = SpellInfo
+                                    Log.WriteLine(LogType.DEBUG, "APPLYING AURA {0}", CType(SpellInfo.ApplyAuraIndex, AuraEffects_Names))
+                                    Exit For
+                                Else
+                                    Log.WriteLine(LogType.FAILED, "Aura out of range {0}", CType(SpellInfo.ApplyAuraIndex, AuraEffects_Names))
+                                    Return SpellFailedReason.CAST_FAIL_CUSTOM_ERROR
+                                End If
                             ElseIf auraTarget.ActiveSpells(i).Aura(2) Is Nothing Then
                                 auraTarget.ActiveSpells(i).Aura(2) = AURAs(SpellInfo.ApplyAuraIndex)
                                 auraTarget.ActiveSpells(i).Aura_Info(2) = SpellInfo
