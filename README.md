@@ -1,6 +1,6 @@
 ServerOne 
 =========
-*MaNGOSVB ServerTwo* is a fast developing server for [World of Warcraft][2], in its vanilla
+*MaNGOSVB ServerTwo* is a fast developing server for [World of Warcraft][2], in its WoTLK
 version supporting clients from the [patch 3.3.5][50] branch, specifically patch
 3.3.5a.
 
@@ -24,14 +24,14 @@ How Can I contribute to the project
 There are two ways to help contribute to this project:-
 
 1) Clone this repo, make your changes and submit a pull request
-2) Visit http://getmangos.co.uk/community and tell us that you want to help.
+2) Visit https://getmangos.eu and tell us that you want to help.
 
 
 License
 -------
-*MaNGOSVB ServerOne* is open source, and licensed under the terms of the GNU GPL version 2.
+*MaNGOSVB ServerTwo* is open source, and licensed under the terms of the GNU GPL version 2.
 
-  Copyright (C) 2005-2013  MaNGOS <http://getmangos.co.uk>
+  Copyright (C) 2005-2013  MaNGOS <https://getmangos.eu>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -71,8 +71,8 @@ License
 
 [50]: http://wowpedia.org/Patch_3.3.5a "WoW TBC · Patch 3.3.5a release notes"
 
-[100]: http://getmangos.co.uk/ "MaNGOS Community Project Website"
-[101]: http://community.getmangos.co.uk/ "MaNGOS Community Discussion Forums"
+[100]: https://getmangos.eu/ "MaNGOS Community Project Website"
+[101]: https://getmangos.eu "MaNGOS Community Discussion Forums"
 
 [110]: http://github.com/mangosvb "MaNGOSVB· github organization"
 [111]: http://github.com/mangosvb/serverOne "MaNGOSVB ServerOne · server repository"

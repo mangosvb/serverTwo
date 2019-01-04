@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2013 getMaNGOS <http://www.getMangos.co.uk>
+' Copyright (C) 2013-2019 getMaNGOS <https://getMangos.eu>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -837,11 +837,11 @@ Public Module RS_Main
         Console.WriteLine(" ###  #####  ### ###    ### ###    ####  #########   #########   ######### ")
         Console.WriteLine(" ###   ###   ### ###    ### ###     ###   #######     #######     #######  ")
         Console.WriteLine("")
-        Console.WriteLine(" Website: http://www.getmangos.co.uk                         ##  ##  ##### ")
+        Console.WriteLine(" Website / Wiki / Forum: https://getMangos.eu                ##  ##  ##### ")
         Console.WriteLine("                                                             ##  ##  ##  ##")
-        Console.WriteLine("    Wiki: http://github.com/mangoswiki/wiki                  ##  ##  ##### ")
+        Console.WriteLine("                                                             ##  ##  ##### ")
         Console.WriteLine("                                                              ####   ##  ##")
-        Console.WriteLine("   Forum: http://community.getmangos.co.uk                     ##    ##### ")
+        Console.WriteLine("                                                               ##    ##### ")
         Console.WriteLine("")
 
 
