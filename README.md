@@ -1,85 +1,148 @@
-ServerOne 
-=========
-*MaNGOSVB ServerTwo* is a fast developing server for [World of Warcraft][2], in its WoTLK
-version supporting clients from the [patch 3.3.5][50] branch, specifically patch
-3.3.5a.
+[<img src='https://www.getmangos.eu/!assets_mangos/currentlogo.gif' width="48" border=0>](https://www.getmangos.eu)
+[<img src='https://www.getmangos.eu/!assets_mangos/logo.png' border=0>](https://www.getmangos.eu)
 
-World of Warcraft, and all World of Warcraft or Warcraft art, images, and lore are
-copyrighted by [Blizzard Entertainment, Inc.][1].
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>Build Status:</b>
+Windows: Coming Soon
+ <br><b>Repository Status:</b> 
+[<img src='https://api.codacy.com/project/badge/Grade/e503039ada4a48c89fe15fced8835008' border=0 valign="middle"/>](https://app.codacy.com/gh/mangosvb/serverTwo/dashboard)
+[<img src='https://www.codefactor.io/repository/github/mangosvb/serverTwo/badge' border=0 valign="middle"/>](https://www.codefactor.io/repository/github/mangosvb/serverTwo)
+[<img src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat' border=0 valign="middle"/>](http://makeapullrequest.com)
+[<img src='https://img.shields.io/discord/286167585270005763.svg' border=0 valign="middle"/>](https://discord.gg/fPxMjHS8xs "Our community hub on Discord")
+
+---
+
+[<img src="https://www.getmangos.eu/!assets_mangos/MangosVB2.png" width="48" valign="middle"/>](http://getmangos.eu)
+ **MangosVB2 - The Wrath of the Lich King WoW server**
+===
+
+**MangosVB** is an open source project written in [VB.Net][7]. It's fast and stores game data in 
+[MySQL][40] or [MariaDB][41].
+
+If you liked the third incarnation of [World of Warcraft][2] and still want to play it
+this is the branch for you. We provide an authentication server where you can manage your users, 
+and a world server which serves game content just like the original did back then.
+
+It aims to be 100% compatible with the final version of WotLK [World of Warcraft][2]
+namely [patch 3.3.5a][4].
 
 Requirements
 ------------
-Visual Basic 2010 or 2012, Single Core Processor, MySQL, 1 GB of RAM minimum.
+    Supported platforms: Windows 7+, Linux, MacOS, Docker
+    .NET Core 3.1
+    MySQL 8.0
+    Visual Studio 2019 or any other editor with .NET support
 
-Documentation
--------------
-All Information about Authors and other things are in the Documentation Folder.
 
-Compilation Guides
-------------------
-Please see our compilation and installation guides at our [Wiki][20]
+Dependencies
+------------
+The server stands on the shoulders of several well-known Open Source libraries plus
+a few awesome, but less known libraries to prevent us from inventing the wheel again.
 
-How Can I contribute to the project
------------------------------------
-There are two ways to help contribute to this project:-
+* **[MySQL][40]** / **[MariaDB][41]**: These databases are used to store content and user data.
 
-1) Clone this repo, make your changes and submit a pull request
-2) Visit https://getmangos.eu and tell us that you want to help.
+
+<br>We have a small, but extremely friendly and helpful community managed by MadMax and Antz.
+<br>Any trolling or unpleasantness is swiftly dealt with !!
+* Our discord/forum motto is "Be nice or Be somewhere else"
+
+**Official Website**
+----
+
+We welcome anyone who is interested in enjoying older versions of wow or contributing and helping out !
+
+* [**Official MaNGOS Website**](https://getmangos.eu/)  
+
+**Discord Server**
+----
+
+We also have a Discord server where many of us hang out and discuss Mangos related stuff.
+
+* [**Discord Server**](https://discord.gg/fPxMjHS8xs) 
+
+**Main Wiki**
+----
+
+The repository of as much information as we can pack in. Details regarding the Database, file type definitions, packet definitons etc.
+
+* [**Wiki Table of Contents**](http://getmangos.eu/wiki)  
+
+
+**Bug / Issue Tracker**
+----
+
+Found an issue or something which doesn't seem right, please log it in the relevant section of the Bug Tracker.
+
+* [**Bug Tracker**](https://www.getmangos.eu/bug-tracker/others/mangos-vb/server-2/)
+
+**Installation Guides**
+----
+
+Installation instructions for various operation systems can be found here.
+
+* [**Installation Guides**](https://www.getmangos.eu/wiki/documentation/installation-guides/) 
 
 
 License
 -------
-*MaNGOSVB ServerTwo* is open source, and licensed under the terms of the GNU GPL version 2.
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
 
-  Copyright (C) 2005-2013  MaNGOS <https://getmangos.eu>
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
-  (at your option) any later version.
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+The full license is included in the file [LICENSE](LICENSE).
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+We have all put in hundreds of hours of time for free to make the server what it
+is today.
+<br>All we ask is that if you modify the code and make improvements, please have
+the decency to feed those changes back to us.
 
-  You can find the full license text in the file COPYING delivered with this
-  package.
+In addition, as a special exception, permission is granted to link the code of
+*Mangos* with the OpenSSL project's [OpenSSL library][48] (or with modified
+versions of it that use the same license as the OpenSSL library), and distribute
+the linked executables. You must obey the GNU General Public License in all
+respects for all of the code used other than [OpenSSL][48].
 
-### Exceptions to GPL
+Acknowledgements
+--------
+World of Warcraft, and all related art, images, and lore are copyright [Blizzard Entertainment, Inc.][1]
 
-  Some third-party libraries MaNGOS uses have other licenses, that must be
-  uphold.  These libraries are located within the dep/ directory
-
-  In addition, as a special exception, MaNGOS gives permission to link the code
-  of its release of MaNGOS with the OpenSSL project's "OpenSSL" library
-  (or with modified versions of it that use the same license as the "OpenSSL"
-  library), and distribute the linked executables. You must obey the GNU
-  General Public License in all respects for all of the code used other than
-  "OpenSSL".
 
 [1]: http://blizzard.com/ "Blizzard Entertainment Inc. · we love you!"
-[2]: http://battle.net/wow/ "World of Warcraft"
-
-[10]: http://a.dependency.net/ "A · dependency"
-
-[20]: https://github.com/mangoswiki/Wiki/wiki/MaNGOS%20Installation/ "Wiki"
-
-[50]: http://wowpedia.org/Patch_3.3.5a "WoW TBC · Patch 3.3.5a release notes"
-
-[100]: https://getmangos.eu/ "MaNGOS Community Project Website"
-[101]: https://getmangos.eu "MaNGOS Community Discussion Forums"
-
-[110]: http://github.com/mangosvb "MaNGOSVB· github organization"
-[111]: http://github.com/mangosvb/serverOne "MaNGOSVB ServerOne · server repository"
-[113]: http://github.com/mangosvb/databaseOne "MaNGOSVB DatabaseOne · content database repository"
-
-[201]: http://www.microsoft.com/express/ "Visual Studio Express · free, limited edition"
-[202]: http://gcc.gnu.org/ "GCC"
-[203]: http://clang.llvm.org/ "Clang"
-
-[251]: http://www.cmake.org/ "CMake · Cross Platform Make"
+[2]: https://worldofwarcraft.com/ "World of Warcraft"
+[4]: http://www.wowpedia.org/Patch_3.3.5a "Wrath of the Lich King · Patch 3.3.5a release notes"
+[7]: http://www.cppreference.com/ "C / C++ reference"
+[10]: https://getmangos.eu/ "mangos · project site"
+[17]: https://ci.appveyor.com/ "AppVeyor Scan · Windows build status"
+[19]: http://www.cmake.org/ "CMake · Cross Platform Make"
+[20]: http://windows.microsoft.com/ "Microsoft Windows"
+[21]: http://www.debian.org/ "Debian · The Universal Operating System"
+[22]: http://www.ubuntu.com/ "Ubuntu · The world's most popular free OS"
+[23]: http://www.freebsd.org/ "FreeBSD · The Power To Serve"
+[24]: http://www.netbsd.org/ "NetBSD · The NetBSD Project"
+[25]: http://www.openbsd.org/ "OpenBSD · Free, functional and secure"
+[31]: https://visualstudio.microsoft.com/vs/older-downloads/ "Visual Studio Downloads"
+[33]: http://clang.llvm.org/ "clang · a C language family frontend for LLVM"
+[34]: http://git-scm.com/ "Git · Distributed version control system"
+[35]: http://windows.github.com/ "github · windows client"
+[36]: http://www.sourcetreeapp.com/ "SourceTree · Free Mercurial and Git Client for Windows/Mac"
+[40]: http://www.mysql.com/ "MySQL · The world's most popular open source database"
+[41]: http://www.mariadb.org/ "MariaDB · An enhanced, drop-in replacement for MySQL"
+[43]: http://www.dre.vanderbilt.edu/~schmidt/ACE.html "ACE · The ADAPTIVE Communication Environment"
+[44]: http://github.com/memononen/recastnavigation "Recast · Navigation-mesh Toolset for Games"
+[45]: http://sourceforge.net/projects/g3d/ "G3D · G3D Innovation Engine"
+[46]: http://zezula.net/en/mpq/stormlib.html "Stormlib · A library for reading data from MPQ archives"
+[48]: http://www.openssl.org/ "OpenSSL · The Open Source toolkit for SSL/TLS"
+[49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen · API documentation generator"
+[51]: http://gnuwin32.sourceforge.net/packages/zlib.htm "Zlib for Windows"
+[52]: http://gnuwin32.sourceforge.net/packages/bzip2.htm "Bzip2 for Windows"
+[53]: http://www.zlib.net/ "Zlib"
+[54]: http://www.bzip.org/ "Bzip2"
+[55]: http://slproweb.com/products/Win32OpenSSL.html "OpenSSL for Windows"
