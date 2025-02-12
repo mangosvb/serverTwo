@@ -1,5 +1,5 @@
 '
-' Copyright (C) 2013-2023 getMaNGOS <https://getMangos.eu>
+' Copyright (C) 2013-2025 getMaNGOS <https://www.getmangos.eu>
 '
 ' This program is free software; you can redistribute it and/or modify
 ' it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ Public Module WorldCluster
         Console.WriteLine()
 
         Console.ForegroundColor = System.ConsoleColor.Magenta
-        Console.WriteLine("https://getMangos.eu")
+        Console.WriteLine("https://www.getmangos.eu")
         Console.WriteLine()
 
         Console.ForegroundColor = System.ConsoleColor.White

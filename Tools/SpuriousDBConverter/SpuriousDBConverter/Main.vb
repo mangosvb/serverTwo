@@ -38,7 +38,7 @@ Module Main
             Console.WriteLine()
 
             Console.ForegroundColor = System.ConsoleColor.Magenta
-            Console.WriteLine("https://getmangos.eu")
+            Console.WriteLine("https://www.getmangos.eu")
             Console.WriteLine()
 
             'DONE: Get all the sql info
